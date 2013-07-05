@@ -1,0 +1,59 @@
+<idea-plugin version="2">
+  <id>pl.projectspace.idea.plugins.php.phpspec</id>
+  <name>phpspec2</name>
+  <version>0.1</version>
+  <vendor email="os@przytulski.pl" url="http://projectspace.pl">Michal Przytulski</vendor>
+
+  <description><![CDATA[
+      Providing basic support for phpspec for phpstorm IDE.
+      ]]></description>
+
+  <change-notes><![CDATA[
+      Add change notes here.<br>
+      <small>most HTML tags may be used</small>
+      ]]>
+  </change-notes>
+
+  <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Build+Number+Ranges for description -->
+  <idea-version since-build="129.757"/>
+
+  <!-- please see http://confluence.jetbrains.net/display/IDEADEV/Plugin+Compatibility+with+IntelliJ+Platform+Products
+       on how to target different products -->
+  <!-- uncomment to enable plugin in all products
+  <depends>com.intellij.modules.lang</depends>
+  -->
+
+  <application-components>
+    <!-- Add your application components here -->
+  </application-components>
+
+  <project-components>
+    <component>
+      <implementation-class>pl.projectspace.idea.plugins.php.phpspec.PhpSpecProjectComponent</implementation-class>
+    </component>
+  </project-components>
+
+  <actions>
+      <group class="pl.projectspace.idea.plugins.php.phpspec.actions.PhpSpec" id="PhpSpecGroup" text="phpspec" description="phpspec actions" popup="true">
+          <action id="InitialiseProject" class="pl.projectspace.idea.plugins.php.phpspec.actions.InitialiseProject"
+                  text="Initialise project for phpspec">
+          </action>
+          <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+      </group>
+      <action id="CreateSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.CreateSpecForClass"
+              text="Create spec for class">
+          <add-to-group group-id="GenerateGroup" anchor="last"/>
+      </action>
+  </actions>
+
+
+  <extensions defaultExtensionNs="com.intellij">
+      <projectConfigurable instance="pl.projectspace.idea.plugins.php.phpspec.SettingsForm"/>
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.Settings"/>
+  </extensions>
+
+  <depends>com.jetbrains.php</depends>
+  <depends>com.intellij.modules.platform</depends>
+  <depends>org.jetbrains.plugins.yaml</depends>
+
+</idea-plugin>
