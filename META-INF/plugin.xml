@@ -36,7 +36,7 @@
   <actions>
       <group class="pl.projectspace.idea.plugins.php.phpspec.actions.PhpSpec" id="PhpSpecGroup" text="phpspec" description="phpspec actions" popup="true">
           <action id="InitialiseProject" class="pl.projectspace.idea.plugins.php.phpspec.actions.InitialiseProject"
-                  text="Initialise project for phpspec">
+                  text="Enable phpspec support for this project">
           </action>
           <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
       </group>
@@ -44,12 +44,19 @@
               text="Create spec for class">
           <add-to-group group-id="GenerateGroup" anchor="last"/>
       </action>
+      <action id="OpenSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.OpenSpecForClass"
+              text="Open spec for class">
+          <add-to-group group-id="GoToMenu" anchor="last"/>
+          <keyboard-shortcut keymap="$default" first-keystroke="shift meta R"/>
+      </action>
   </actions>
 
 
   <extensions defaultExtensionNs="com.intellij">
       <projectConfigurable instance="pl.projectspace.idea.plugins.php.phpspec.SettingsForm"/>
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.Settings"/>
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.command.Locator" />
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.command.Executor" />
   </extensions>
 
   <depends>com.jetbrains.php</depends>

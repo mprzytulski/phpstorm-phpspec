@@ -4,7 +4,7 @@ import com.intellij.openapi.components.*;
 import com.intellij.openapi.project.Project;
 import com.intellij.util.xmlb.XmlSerializerUtil;
 import org.jetbrains.annotations.Nullable;
-import pl.projectspace.idea.plugins.php.phpspec.command.PhpSpecLocator;
+import pl.projectspace.idea.plugins.php.phpspec.command.Locator;
 
 @State(
         name = "Settings",
@@ -22,20 +22,14 @@ public class Settings implements PersistentStateComponent<Settings> {
 
     protected Project project;
 
-    protected PhpSpecLocator locator = null;
+    private String phpSpecPath;
 
     public static Settings getInstance(Project project) {
         Settings settings = ServiceManager.getService(project, Settings.class);
-        if (settings.locator == null) {
-            settings.project = project;
-            settings.locator = new PhpSpecLocator(project);
-        }
+
+        Locator l = ServiceManager.getService(project, Locator.class);
 
         return settings;
-    }
-
-    public PhpSpecLocator getLocator() {
-        return locator;
     }
 
     @Nullable
@@ -49,4 +43,11 @@ public class Settings implements PersistentStateComponent<Settings> {
         XmlSerializerUtil.copyBean(settings, this);
     }
 
+    public String getPhpSpecPath() {
+        return phpSpecPath;
+    }
+
+    public void setPhpSpecPath(String phpSpecPath) {
+        this.phpSpecPath = phpSpecPath;
+    }
 }

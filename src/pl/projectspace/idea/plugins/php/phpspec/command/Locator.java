@@ -1,24 +1,33 @@
 package pl.projectspace.idea.plugins.php.phpspec.command;
 
+import com.intellij.openapi.components.State;
+import com.intellij.openapi.components.Storage;
+import com.intellij.openapi.components.StorageScheme;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.php.composer.ComposerDataService;
-import com.jetbrains.php.composer.addDependency.ComposerPackage;
-import com.jetbrains.php.composer.lib.ComposerLibrariesTreeStructureProvider;
-import pl.projectspace.idea.plugins.php.phpspec.Settings;
+import pl.projectspace.php.composer.Composer;
 
 import java.io.File;
 import java.util.Map;
-import java.util.Properties;
+
+@State(
+        name = "Locator",
+        storages = {
+                @Storage(id = "default", file="$PROJECT_CONFIG_DIR$/locator.xml", scheme = StorageScheme.DIRECTORY_BASED)
+        }
+)
 
 /**
  * @author Michal Przytulski <michal@przytulski.pl>
  */
-public class PhpSpecLocator {
+public class Locator {
 
-    private final Project project;
+    private Project project;
 
-    public PhpSpecLocator(Project project) {
+    public Locator setProject(Project project) {
         this.project = project;
+
+        return this;
     }
 
     public String getPath() {
@@ -51,9 +60,20 @@ public class PhpSpecLocator {
             return null;
         }
 
+        Composer composer = new pl.projectspace.php.composer.File(service.getConfigPath()).parse();
 
-        ComposerPackage.loadPackages();
-        return null;
+        if (!composer.isRequired("phpspec/phpspec")) {
+            return null;
+        }
+
+        String path = project.getBasePath() + "/" + composer.getConfig().getBinDir() + "/phpspec";
+
+        File file = new File(path);
+        if (!file.exists()) {
+            return null;
+        }
+
+        return path;
     }
 
 }

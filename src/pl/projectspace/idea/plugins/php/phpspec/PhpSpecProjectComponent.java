@@ -1,19 +1,15 @@
 package pl.projectspace.idea.plugins.php.phpspec;
 
 import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.components.ServiceManager;
 import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.php.composer.*;
 import com.jetbrains.php.composer.lib.ComposerLibraryManager;
 import org.jetbrains.annotations.NotNull;
+import pl.projectspace.idea.plugins.php.phpspec.command.Executor;
+import pl.projectspace.idea.plugins.php.phpspec.command.Locator;
 
-/**
- * Created with IntelliJ IDEA.
- * User: mprzytulski
- * Date: 04/07/2013
- * Time: 19:56
- * To change this template use File | Settings | File Templates.
- */
 public class PhpSpecProjectComponent implements ProjectComponent {
 
     private Project project;
@@ -24,24 +20,25 @@ public class PhpSpecProjectComponent implements ProjectComponent {
 
     @Override
     public void projectOpened() {
-//        ComposerDataService service = ComposerDataService.getInstance(project).getConfigPath();
-//        boolean enabled = (!service.isPharWellConfigured()) || (!service.isConfigWellConfigured());
+        Locator locator = ServiceManager.getService(project, Locator.class)
+            .setProject(project);
+
+        ServiceManager.getService(project, Executor.class)
+            .setProject(project)
+            .setLocator(locator);
     }
 
     @Override
     public void projectClosed() {
-        //To change body of implemented methods use File | Settings | File Templates.
         System.out.println("disposeComponent");
     }
 
     @Override
     public void initComponent() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
     public void disposeComponent() {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @NotNull
