@@ -12,9 +12,33 @@ import java.util.Collection;
 public class PhpSpecClass {
 
     public static PhpClass getSpecForClass(PhpClass phpClass, Project project) {
-        Collection<PhpClass> result = PhpIndex.getInstance(project).getAnyByFQN(
-                getSpecClassNameForClass(phpClass)
+        return getClassByFQN(
+                getSpecNameForClass(phpClass, project), project
         );
+    }
+
+    public static boolean isSpec(PhpClass phpClass) {
+        if (!phpClass.getFQN().endsWith("Spec")) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public static PhpClass getClassForSpec(PhpClass phpClass, Project project) {
+        return getClassByFQN(
+            getClassNameForSpec(phpClass, project), project
+        );
+    }
+
+    public static PhpClass getClassForSpec(String phpClass, Project project) {
+        return getClassByFQN(
+                getClassNameForSpec(phpClass, project), project
+        );
+    }
+
+    protected static PhpClass getClassByFQN(String fqn, Project project) {
+        Collection<PhpClass> result = PhpIndex.getInstance(project).getAnyByFQN(fqn);
 
         if (result.isEmpty()) {
             return null;
@@ -23,8 +47,15 @@ public class PhpSpecClass {
         return result.iterator().next();
     }
 
-    protected static String getSpecClassNameForClass(PhpClass phpClass) {
+    protected static String getSpecNameForClass(PhpClass phpClass, Project project) {
         return "\\spec" + phpClass.getFQN() + "Spec";
     }
 
+    protected static String getClassNameForSpec(PhpClass phpClass, Project project) {
+        return getClassNameForSpec(phpClass.getFQN(), project);
+    }
+
+    protected static String getClassNameForSpec(String phpClass, Project project) {
+        return phpClass.replace("\\spec", "").replaceAll("Spec$", "");
+    }
 }
