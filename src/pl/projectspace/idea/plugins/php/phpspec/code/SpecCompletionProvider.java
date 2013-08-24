@@ -14,9 +14,9 @@ import org.jetbrains.annotations.NotNull;
 //import fr.adrienbrault.idea.symfony2plugin.Symfony2Icons;
 //import fr.adrienbrault.idea.symfony2plugin.Symfony2ProjectComponent;
 //import fr.adrienbrault.idea.symfony2plugin.config.doctrine.DoctrineStaticTypeLookupBuilder;
-//import fr.adrienbrault.idea.symfony2plugin.util.annotation.AnnotationIndex;
-//import fr.adrienbrault.idea.symfony2plugin.util.annotation.AnnotationLookupElement;
-//import fr.adrienbrault.idea.symfony2plugin.util.annotation.AnnotationValue;
+//import fr.adrienbrault.idea.symfony2plugin.util.completion.AnnotationIndex;
+//import fr.adrienbrault.idea.symfony2plugin.util.completion.AnnotationLookupElement;
+//import fr.adrienbrault.idea.symfony2plugin.util.completion.AnnotationValue;
 //import fr.adrienbrault.idea.symfony2plugin.util.completion.annotations.AnnotationTagInsertHandler;
 //import fr.adrienbrault.idea.symfony2plugin.util.completion.annotations.AnnotationMethodInsertHandler;
 

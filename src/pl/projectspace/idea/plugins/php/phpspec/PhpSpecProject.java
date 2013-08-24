@@ -10,22 +10,16 @@ import org.jetbrains.annotations.NotNull;
 import pl.projectspace.idea.plugins.php.phpspec.command.Executor;
 import pl.projectspace.idea.plugins.php.phpspec.command.Locator;
 
-public class PhpSpecProjectComponent implements ProjectComponent {
+public class PhpSpecProject implements ProjectComponent {
 
     private Project project;
 
-    public PhpSpecProjectComponent(Project project) {
+    public PhpSpecProject(Project project) {
         this.project = project;
     }
 
     @Override
     public void projectOpened() {
-        Locator locator = ServiceManager.getService(project, Locator.class)
-            .setProject(project);
-
-        ServiceManager.getService(project, Executor.class)
-            .setProject(project)
-            .setLocator(locator);
     }
 
     @Override
@@ -44,11 +38,10 @@ public class PhpSpecProjectComponent implements ProjectComponent {
     @NotNull
     @Override
     public String getComponentName() {
-        return "PhpSpecProjectComponent";
+        return "phpspec";
     }
 
     public static boolean isEnabled(Project project) {
-//        return Settings.getInstance(project).pluginEnabled;
         return true;
     }
 }

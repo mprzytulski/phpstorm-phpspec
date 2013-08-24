@@ -5,7 +5,7 @@ import com.intellij.openapi.components.Storage;
 import com.intellij.openapi.components.StorageScheme;
 import com.intellij.openapi.project.Project;
 import com.jetbrains.php.composer.ComposerDataService;
-import pl.projectspace.php.composer.Composer;
+import pl.projectspace.idea.plugins.commons.php.composer.Composer;
 
 import java.io.File;
 import java.util.Map;
@@ -60,7 +60,7 @@ public class Locator {
             return null;
         }
 
-        Composer composer = new pl.projectspace.php.composer.File(service.getConfigPath()).parse();
+        Composer composer = new pl.projectspace.idea.plugins.commons.php.composer.File(service.getConfigPath()).parse();
 
         if (!composer.isRequired("phpspec/phpspec")) {
             return null;

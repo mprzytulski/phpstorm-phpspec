@@ -1,6 +1,7 @@
 package pl.projectspace.idea.plugins.php.phpspec.code.type.provider;
 
 import com.intellij.openapi.actionSystem.LangDataKeys;
+import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.Condition;
 import com.intellij.openapi.util.text.StringUtil;
@@ -40,6 +41,10 @@ public class WrappedObjectTypeProvider implements PhpTypeProvider2 {
     @Override
     public String getType(PsiElement psiElement) {
 
+        if (DumbService.isDumb(psiElement.getProject())) {
+            return null;
+        }
+
         if (psiElement instanceof MethodReference) {
             MethodReference method = (MethodReference)psiElement;
             if (!method.getName().equals("getWrappedObject")) {
@@ -57,18 +62,9 @@ public class WrappedObjectTypeProvider implements PhpTypeProvider2 {
 
     @Override
     public Collection<? extends PhpNamedElement> getBySignature(String expression, Project project) {
-
         PhpIndex phpIndex = PhpIndex.getInstance(project);
-
-//        PhpClass t = phpIndex.getClassesByFQN("\\Test\\Test").iterator().next();
         PhpClass phpClass = phpIndex.getClassesByFQN(expression).iterator().next();
 
-
-
-//        if (phpClass == null) {
-//            return null;
-//        }
-//
         return Arrays.asList(phpClass);
     }
 }

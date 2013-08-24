@@ -15,6 +15,7 @@
     <orderEntry type="library" name="commandLineTool" level="project" />
     <orderEntry type="library" name="JavascriptLanguage" level="project" />
     <orderEntry type="library" name="com.google.code.gson:gson:2.0" level="project" />
+    <orderEntry type="module" module-name="commons" />
   </component>
 </module>
 

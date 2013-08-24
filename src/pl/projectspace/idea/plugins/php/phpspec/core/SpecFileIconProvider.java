@@ -1,4 +1,4 @@
-package pl.projectspace.idea.plugins.php.phpspec.icons;
+package pl.projectspace.idea.plugins.php.phpspec.core;
 
 import com.intellij.ide.FileIconProvider;
 import com.intellij.openapi.project.Project;
