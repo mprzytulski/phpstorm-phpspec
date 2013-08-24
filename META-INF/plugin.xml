@@ -41,12 +41,6 @@
   </project-components>
 
   <actions>
-      <group class="pl.projectspace.idea.plugins.php.phpspec.actions.PhpSpec" id="PhpSpecGroup" text="phpspec" description="phpspec actions" popup="true">
-          <action id="InitialiseProject" class="pl.projectspace.idea.plugins.php.phpspec.actions.InitialiseProject"
-                  text="Enable phpspec support for this project">
-          </action>
-          <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-      </group>
       <action id="CreateSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.CreateSpecForClass"
               text="Create spec for class">
           <add-to-group group-id="GenerateGroup" anchor="last"/>
@@ -66,18 +60,14 @@
   <extensions defaultExtensionNs="com.intellij">
       <internalFileTemplate name="Spec Class" />
 
-      <projectConfigurable instance="pl.projectspace.idea.plugins.php.phpspec.SettingsForm"/>
-
       <php.typeProvider2 implementation="pl.projectspace.idea.plugins.php.phpspec.code.type.provider.WrappedObjectTypeProvider"/>
 
       <completion.contributor language="PHP" implementationClass="pl.projectspace.idea.plugins.php.phpspec.code.SpecCompletionContributor"/>
       <!--<pl.projectspace.idea.plugins.commons.php.psi.referenceContributor implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecReferenceContributor"/>-->
 
-      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.Settings"/>
-      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.command.Locator" />
-      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.command.Executor" />
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecLocator" />
 
-      <fileIconProvider implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecFileIconProvider" />
+      <iconProvider implementation="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecIconProvider" />
 
       <!--<nameSuggestionProvider implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecNameSuggestionProvider" id="PHP"/>-->
       <!--<definitionsSearch implementation="com.jetbrains.php.lang.findUsages.PhpDefinitionsSearchExecutor"/>-->

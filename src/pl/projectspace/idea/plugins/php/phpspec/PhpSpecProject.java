@@ -1,38 +1,14 @@
 package pl.projectspace.idea.plugins.php.phpspec;
 
-import com.intellij.openapi.components.ProjectComponent;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.extensions.ExtensionPointName;
 import com.intellij.openapi.project.Project;
-import com.jetbrains.php.composer.*;
-import com.jetbrains.php.composer.lib.ComposerLibraryManager;
+import com.jetbrains.php.PhpIndex;
 import org.jetbrains.annotations.NotNull;
-import pl.projectspace.idea.plugins.php.phpspec.command.Executor;
-import pl.projectspace.idea.plugins.php.phpspec.command.Locator;
+import pl.projectspace.idea.plugins.commons.php.ProjectComponent;
 
-public class PhpSpecProject implements ProjectComponent {
+public class PhpSpecProject extends ProjectComponent {
 
-    private Project project;
-
-    public PhpSpecProject(Project project) {
-        this.project = project;
-    }
-
-    @Override
-    public void projectOpened() {
-    }
-
-    @Override
-    public void projectClosed() {
-        System.out.println("disposeComponent");
-    }
-
-    @Override
-    public void initComponent() {
-    }
-
-    @Override
-    public void disposeComponent() {
+    public PhpSpecProject(Project project, PhpIndex index) {
+        super(project, index);
     }
 
     @NotNull
@@ -41,7 +17,7 @@ public class PhpSpecProject implements ProjectComponent {
         return "phpspec";
     }
 
-    public static boolean isEnabled(Project project) {
+    public static boolean isEnabled() {
         return true;
     }
 }
