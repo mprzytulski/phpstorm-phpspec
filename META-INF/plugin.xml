@@ -42,7 +42,7 @@
 
   <actions>
       <action id="CreateSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.CreateSpecForClass"
-              text="Create spec for class">
+              text="Create spec for class" icon="/pl/projectspace/idea/plugins/php/phpspec/icons/phpspec_16_16.png">
           <add-to-group group-id="GenerateGroup" anchor="last"/>
       </action>
       <action id="OpenSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.PhpSpecSwitchContext"
@@ -65,7 +65,10 @@
       <completion.contributor language="PHP" implementationClass="pl.projectspace.idea.plugins.php.phpspec.code.SpecCompletionContributor"/>
       <!--<pl.projectspace.idea.plugins.commons.php.psi.referenceContributor implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecReferenceContributor"/>-->
 
-      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecLocator" />
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator" />
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.FileFactory"/>
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PsiTreeUtils"/>
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecFactory"/>
 
       <iconProvider implementation="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecIconProvider" />
 

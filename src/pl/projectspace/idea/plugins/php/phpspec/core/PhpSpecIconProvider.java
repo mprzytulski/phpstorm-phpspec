@@ -9,6 +9,7 @@ import com.jetbrains.php.lang.psi.elements.PhpClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pl.projectspace.idea.plugins.php.phpspec.PhpSpecProject;
+import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator;
 
 import javax.swing.*;
 
@@ -29,7 +30,7 @@ public class PhpSpecIconProvider extends IconProvider {
         PhpSpecLocator locator = getUtils(element);
         if ((element instanceof PhpFile)) {
             for (PsiNamedElement el : ((PhpFile)element).getTopLevelDefs().values()) {
-                if (el instanceof PhpClass && locator.is((PhpClass) el)) {
+                if (el instanceof PhpClass && locator.isSpec((PhpClass) el)) {
                     return PhpSpecIcons.File;
                 }
             }

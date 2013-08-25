@@ -4,11 +4,15 @@ import com.intellij.openapi.project.Project;
 import com.jetbrains.php.PhpIndex;
 import org.jetbrains.annotations.NotNull;
 import pl.projectspace.idea.plugins.commons.php.ProjectComponent;
+import pl.projectspace.idea.plugins.php.phpspec.config.PhpSpec;
 
 public class PhpSpecProject extends ProjectComponent {
 
+    private final PhpSpec config;
+
     public PhpSpecProject(Project project, PhpIndex index) {
         super(project, index);
+        config = new PhpSpec(project);
     }
 
     @NotNull
@@ -19,5 +23,9 @@ public class PhpSpecProject extends ProjectComponent {
 
     public static boolean isEnabled() {
         return true;
+    }
+
+    public PhpSpec getConfig() {
+        return config;
     }
 }

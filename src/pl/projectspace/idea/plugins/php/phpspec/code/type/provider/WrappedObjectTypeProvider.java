@@ -1,29 +1,17 @@
 package pl.projectspace.idea.plugins.php.phpspec.code.type.provider;
 
-import com.intellij.openapi.actionSystem.LangDataKeys;
 import com.intellij.openapi.project.DumbService;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.Condition;
-import com.intellij.openapi.util.text.StringUtil;
 import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
 import com.intellij.psi.util.PsiTreeUtil;
 import com.jetbrains.php.PhpIndex;
-import com.jetbrains.php.lang.parser.parsing.classes.ClassReference;
-import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.*;
-import com.jetbrains.php.lang.psi.resolve.types.PhpType;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
-import com.jetbrains.php.lang.psi.stubs.indexes.PhpInterfaceIndex;
-import org.apache.commons.lang.ArrayUtils;
 import org.jetbrains.annotations.Nullable;
-import pl.projectspace.idea.plugins.php.phpspec.PhpSpecClass;
+import pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecClass;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 /**
  * @author Michal Przytulski <michal@przytulski.pl>
@@ -52,9 +40,9 @@ public class WrappedObjectTypeProvider implements PhpTypeProvider2 {
             }
 
             PhpClass phpClass = PsiTreeUtil.getContextOfType(psiElement, PhpClass.class, false);
-            PhpClass returnType = PhpSpecClass.getClassForSpec(phpClass, psiElement.getProject());
+//            PhpClass returnType = PhpSpecClass.getClassForSpec(phpClass, psiElement.getProject());
 
-            return returnType.getFQN();
+//            return returnType.getFQN();
         }
 
         return null;

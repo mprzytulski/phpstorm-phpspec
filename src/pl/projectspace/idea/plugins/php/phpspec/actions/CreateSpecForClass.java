@@ -1,63 +1,70 @@
 package pl.projectspace.idea.plugins.php.phpspec.actions;
 
-import com.intellij.ide.actions.OpenFileAction;
-import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.ide.fileTemplates.FileTemplateManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.LangDataKeys;
-import com.intellij.openapi.actionSystem.PlatformDataKeys;
-import com.intellij.openapi.application.Application;
 import com.intellij.openapi.application.ApplicationManager;
-import com.intellij.openapi.components.ServiceManager;
-import com.intellij.openapi.editor.Document;
-import com.intellij.openapi.editor.Editor;
-import com.intellij.openapi.fileEditor.FileDocumentManager;
-import com.intellij.openapi.vfs.LocalFileSystem;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.ui.Messages;
 import com.intellij.openapi.vfs.VirtualFile;
-import com.intellij.openapi.vfs.VirtualFileManager;
-import com.intellij.openapi.vfs.newvfs.impl.VirtualFileImpl;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.psi.util.PsiTreeUtil;
-import com.jetbrains.php.PhpIndex;
+import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.ui.PhpSingleConfigurableEditor;
-import pl.projectspace.idea.plugins.php.phpspec.PhpSpecClass;
-import pl.projectspace.idea.plugins.php.phpspec.command.Describe;
-import pl.projectspace.idea.plugins.php.phpspec.command.Executor;
+import pl.projectspace.idea.plugins.commons.php.action.PhpClassAction;
+import pl.projectspace.idea.plugins.php.phpspec.PhpSpecProject;
+import pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecClass;
+import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator;
+import pl.projectspace.idea.plugins.php.phpspec.core.annotations.PhpSpecAction;
+import pl.projectspace.idea.plugins.php.phpspec.core.services.FileFactory;
 
-import java.io.File;
-import java.util.Collection;
+import java.util.Properties;
 
 public class CreateSpecForClass extends PhpClassAction {
     public void actionPerformed(final AnActionEvent e) {
         final PhpClass phpClass = getPhpClassFromContext(e);
+        Project project = phpClass.getProject();
+        try {
+            Properties properties = FileTemplateManager.getInstance().getDefaultProperties();
 
-        final Describe cmd = new Describe(e.getProject(), phpClass);
-        Executor executor = ServiceManager.getService(e.getProject(), Executor.class);
-        executor.execute(cmd, new Runnable() {
-            @Override
-            public void run() {
-                String s = "";
-                OpenFileAction.openFile(cmd.getSpecPath(), e.getProject());
+            PhpSpecLocator locator = phpClass.getProject().getComponent(PhpSpecProject.class).getService(PhpSpecLocator.class);
+
+            String specClassName = locator.getSpecNameFor(phpClass);
+
+            properties.setProperty("CLASS_NAME", specClassName);
+            properties.setProperty("NAMESPACE", locator.getSpecNamespaceFor(phpClass));
+
+            String specPath = locator.getSpecNamespaceFor(phpClass).replaceAll("\\\\", "/");
+
+            VirtualFile baseDir = project.getBaseDir();
+            VirtualFile dir = baseDir.findFileByRelativePath(specPath);
+
+            if (dir == null) {
+                dir = project.getComponent(PhpSpecProject.class).getService(FileFactory.class)
+                    .createNamespaceDirectory(baseDir, specPath);
             }
-        });
+
+            ApplicationManager.getApplication().runWriteAction(
+                project.getComponent(PhpSpecProject.class).getService(FileFactory.class)
+                    .getCreateFileFromTemplateWriteAction(
+                        dir,
+                        specClassName.concat(".php"),
+                        PhpFileType.INSTANCE,
+                        "Spec Class.php",
+                        properties
+                    )
+            );
+
+        } catch (Exception e1) {
+            Messages.showErrorDialog(project, "Failed creating spec for given class.", "Failed Creating Spec File.");
+        }
     }
 
     @Override
+    @PhpSpecAction
     public void update(AnActionEvent e) {
+        PhpSpecLocator locator = e.getProject().getComponent(PhpSpecProject.class).getService(PhpSpecLocator.class);
         PhpClass phpClass = getPhpClassFromContext(e);
-
-        if (phpClass == null) {
-            e.getPresentation().setEnabled(false);
-            return;
-        }
-
-        if (PhpIndex.getInstance(e.getProject()).getAnyByFQN("\\spec" + phpClass.getFQN() + "Spec").size() > 0) {
-            e.getPresentation().setEnabled(false);
-            return;
-        }
-
-        super.update(e);
+        e.getPresentation().setEnabled(
+            (phpClass != null && !locator.isSpec(phpClass))
+        );
     }
 
 }
