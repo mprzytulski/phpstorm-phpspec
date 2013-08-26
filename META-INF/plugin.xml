@@ -9,20 +9,22 @@
 
       <h3>General:</h3>
       <ul>
-          <li>Custom icon for Behat Context and PageObjects files</li>
+          <li>Custom icons for phpspac files</li>
+          <li>Generate spec file for php class</li>
       </ul>
 
-      <h3>Feature file:</h3>
+      <h3>Navigation:</h3>
       <ul>
-          <li>tag auto completion</li>
-          <li>reference provider for Gherkin steps</li>
+          <li>go to spec from php class / go to clas from spec class</li>
       </ul>
       ]]></description>
 
   <change-notes><![CDATA[
-      <h3>0.2</h3>
+      <h3>0.1</h3>
       <ul>
-          <li>detecting Behat installation</li>
+          <li>generate spec for class</li>
+          <li>custom icons for spec files</li>
+          <li>go to spec from php class / go to clas from spec class</li>
       </ul>
       ]]>
   </change-notes>
@@ -46,14 +48,19 @@
           <add-to-group group-id="GenerateGroup" anchor="last"/>
       </action>
       <action id="OpenSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.PhpSpecSwitchContext"
-              icon="/icons/phpspec.png"
+              icon="/pl/projectspace/idea/plugins/php/phpspec/icons/phpspec_16_16.png"
               text="Go to class spec">
-          <add-to-group group-id="GoToMenu" anchor="last"/>
-          <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
-          <add-to-group group-id="EditorActions" anchor="last"/>
-          <!--<add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>-->
+          <add-to-group group-id="GoToCodeGroup" anchor="last"/>
+          <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
           <keyboard-shortcut keymap="$default" first-keystroke="alt meta S"/>
       </action>
+
+      <!--<action id="OpenSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.PhpSpecSwitchContext"-->
+              <!--icon="/pl/projectspace/idea/plugins/php/phpspec/icons/phpspec_16_16.png"-->
+              <!--text="GoToMenuEx">-->
+          <!--<add-to-group group-id="GoToMenuEx" anchor="last"/>-->
+          <!--<keyboard-shortcut keymap="$default" first-keystroke="alt meta S"/>-->
+      <!--</action>-->
   </actions>
 
 
@@ -63,19 +70,20 @@
       <php.typeProvider2 implementation="pl.projectspace.idea.plugins.php.phpspec.code.type.provider.WrappedObjectTypeProvider"/>
 
       <completion.contributor language="PHP" implementationClass="pl.projectspace.idea.plugins.php.phpspec.code.SpecCompletionContributor"/>
-      <!--<pl.projectspace.idea.plugins.commons.php.psi.referenceContributor implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecReferenceContributor"/>-->
 
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator" />
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.FileFactory"/>
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PsiTreeUtils"/>
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecFactory"/>
 
+      <localInspection language="PHP" shortName="MissingClassSpec" enabledByDefault="true" level="WARNING"
+                       implementationClass="pl.projectspace.idea.plugins.php.phpspec.core.inspection.PhpSpecClassInspection"
+                       displayName="Missing class spec" groupName="Missing spec" />
+
+      <codeInsight.lineMarkerProvider language="PHP" implementationClass="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecLineMarker"/>
+
       <iconProvider implementation="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecIconProvider" />
 
-      <!--<nameSuggestionProvider implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecNameSuggestionProvider" id="PHP"/>-->
-      <!--<definitionsSearch implementation="com.jetbrains.php.lang.findUsages.PhpDefinitionsSearchExecutor"/>-->
-      <!--<typedHandler implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecTypeHandler"/>-->
-      <!--<inlineActionHandler implementation="pl.projectspace.idea.plugins.php.phpspec.core.SpecInlineVariableHandler" />-->
   </extensions>
 
   <depends>com.jetbrains.php</depends>
