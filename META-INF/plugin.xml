@@ -22,6 +22,8 @@
   <change-notes><![CDATA[
       <h3>0.1</h3>
       <ul>
+          <li>basic type provider for spec object</li>
+          <li>class inspection - generate warning for classes without spec with quick fix auto generatrion</li>
           <li>generate spec for class</li>
           <li>custom icons for spec files</li>
           <li>go to spec from php class / go to clas from spec class</li>
@@ -54,13 +56,6 @@
           <add-to-group group-id="EditorPopupMenu.GoTo" anchor="last"/>
           <keyboard-shortcut keymap="$default" first-keystroke="alt meta S"/>
       </action>
-
-      <!--<action id="OpenSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.PhpSpecSwitchContext"-->
-              <!--icon="/pl/projectspace/idea/plugins/php/phpspec/icons/phpspec_16_16.png"-->
-              <!--text="GoToMenuEx">-->
-          <!--<add-to-group group-id="GoToMenuEx" anchor="last"/>-->
-          <!--<keyboard-shortcut keymap="$default" first-keystroke="alt meta S"/>-->
-      <!--</action>-->
   </actions>
 
 
@@ -68,6 +63,7 @@
       <internalFileTemplate name="Spec Class" />
 
       <php.typeProvider2 implementation="pl.projectspace.idea.plugins.php.phpspec.code.type.provider.WrappedObjectTypeProvider"/>
+      <php.typeProvider2 implementation="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecTypeProvider"/>
 
       <completion.contributor language="PHP" implementationClass="pl.projectspace.idea.plugins.php.phpspec.code.SpecCompletionContributor"/>
 
@@ -75,12 +71,11 @@
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.FileFactory"/>
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PsiTreeUtils"/>
       <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecFactory"/>
+      <projectService serviceImplementation="pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecStaticCompletionProvider"/>
 
       <localInspection language="PHP" shortName="MissingClassSpec" enabledByDefault="true" level="WARNING"
                        implementationClass="pl.projectspace.idea.plugins.php.phpspec.core.inspection.PhpSpecClassInspection"
                        displayName="Missing class spec" groupName="Missing spec" />
-
-      <codeInsight.lineMarkerProvider language="PHP" implementationClass="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecLineMarker"/>
 
       <iconProvider implementation="pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecIconProvider" />
 
