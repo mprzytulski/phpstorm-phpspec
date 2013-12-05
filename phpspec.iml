@@ -9,14 +9,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" scope="PROVIDED" name="php-openapi" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="php" level="project" />
-    <orderEntry type="library" scope="PROVIDED" name="yaml" level="project" />
-    <orderEntry type="library" name="commandLineTool" level="project" />
-    <orderEntry type="library" name="JavascriptLanguage" level="project" />
-    <orderEntry type="library" name="com.google.code.gson:gson:2.0" level="project" />
     <orderEntry type="module" module-name="commons" />
-    <orderEntry type="library" name="org.aspectj:aspectjrt:1.7.3" level="project" />
+    <orderEntry type="library" scope="PROVIDED" name="php-openapi" level="application" />
+    <orderEntry type="library" name="com.google.code.gson:gson:2.2.4" level="application" />
+    <orderEntry type="library" name="php" level="application" />
+    <orderEntry type="library" name="yaml" level="application" />
+    <orderEntry type="library" name="commandLineTool" level="application" />
   </component>
 </module>
 

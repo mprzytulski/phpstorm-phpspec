@@ -5,11 +5,8 @@ import com.intellij.codeInspection.ProblemDescriptor;
 import com.intellij.openapi.project.Project;
 import com.intellij.psi.impl.source.tree.LeafPsiElement;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
-import com.jetbrains.php.lang.psi.elements.StringLiteralExpression;
 import org.jetbrains.annotations.NotNull;
-import pl.projectspace.idea.plugins.php.phpspec.PhpSpecProject;
-import pl.projectspace.idea.plugins.php.phpspec.actions.CreateSpecForClass;
-import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator;
+import pl.projectspace.idea.plugins.php.phpspec.actions.CreateSpecForClassAction;
 
 import java.io.IOException;
 
@@ -43,12 +40,8 @@ public class GenerateSpecForClassFix implements LocalQuickFix {
             return;
         }
 
-        CreateSpecForClass action = new CreateSpecForClass();
-        try {
-            action.createSpecFor(relatedClass);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+        CreateSpecForClassAction action = new CreateSpecForClassAction();
+        action.perform(relatedClass);
     }
 
 }

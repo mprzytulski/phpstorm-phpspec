@@ -12,12 +12,33 @@ import pl.projectspace.idea.plugins.php.phpspec.core.services.PsiTreeUtils;
  */
 public class PhpSpecDescribedClass extends PhpSpecClassDecorator {
 
+    protected PhpSpecClass spec = null;
+
     public PhpSpecDescribedClass(PhpClass phpClass) {
         super(phpClass);
     }
 
+    @Override
+    public boolean hasRelatedClass() {
+        try {
+            getSpec();
+
+            return true;
+        } catch (MissingElementException e) {
+            return false;
+        }
+    }
+
     public PhpSpecClass getSpecClass() throws MissingElementException {
-        return getService(PhpSpecLocator.class).locateSpecFor(getDecoratedObject());
+        return getSpec();
+    }
+
+    protected PhpSpecClass getSpec() throws MissingElementException {
+        if (spec == null) {
+            spec = getService(PhpSpecLocator.class).locateSpecFor(getDecoratedObject());
+        }
+
+        return spec;
     }
 
 }

@@ -19,11 +19,33 @@ import java.util.Collection;
  */
 public class PhpSpecClass extends PhpSpecClassDecorator {
 
+    private PhpSpecDescribedClass klass;
+
     public PhpSpecClass(PhpClass phpClass) {
         super(phpClass);
     }
 
+    @Override
+    public boolean hasRelatedClass() {
+        try {
+            getPhpSpecDescribedClass();
+
+            return true;
+        } catch (MissingElementException e) {
+        }
+
+        return false;
+    }
+
     public PhpSpecDescribedClass getDescribedClass() throws MissingElementException {
-        return getService(PhpSpecLocator.class).locateDescriptionFor(getDecoratedObject());
+        return getPhpSpecDescribedClass();
+    }
+
+    protected PhpSpecDescribedClass getPhpSpecDescribedClass() throws MissingElementException {
+        if (klass == null) {
+            klass = getService(PhpSpecLocator.class).locateDescriptionFor(getDecoratedObject());
+        }
+
+        return klass;
     }
 }

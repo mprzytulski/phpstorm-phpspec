@@ -8,6 +8,7 @@ import com.jetbrains.php.PhpIndex;
 import com.jetbrains.php.lang.psi.elements.*;
 import com.jetbrains.php.lang.psi.resolve.types.PhpTypeProvider2;
 import org.jetbrains.annotations.Nullable;
+import pl.projectspace.idea.plugins.commons.php.code.type.GenericTypeProvider;
 import pl.projectspace.idea.plugins.php.phpspec.core.PhpSpecClass;
 
 import java.util.Arrays;
@@ -16,18 +17,11 @@ import java.util.Collection;
 /**
  * @author Michal Przytulski <michal@przytulski.pl>
  */
-public class WrappedObjectTypeProvider implements PhpTypeProvider2 {
-
-    final static char TRIM_KEY = '\u0180';
-
-    @Override
-    public char getKey() {
-        return '\u0150';
-    }
+public class WrappedObjectTypeProvider extends GenericTypeProvider {
 
     @Nullable
     @Override
-    public String getType(PsiElement psiElement) {
+    public String getTypeFor(PsiElement psiElement) {
 
         if (DumbService.isDumb(psiElement.getProject())) {
             return null;
@@ -48,11 +42,4 @@ public class WrappedObjectTypeProvider implements PhpTypeProvider2 {
         return null;
     }
 
-    @Override
-    public Collection<? extends PhpNamedElement> getBySignature(String expression, Project project) {
-        PhpIndex phpIndex = PhpIndex.getInstance(project);
-        PhpClass phpClass = phpIndex.getClassesByFQN(expression).iterator().next();
-
-        return Arrays.asList(phpClass);
-    }
 }

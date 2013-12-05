@@ -14,25 +14,36 @@ import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator;
  * @author Michal Przytulski <michal@przytulski.pl>
  */
 public class PhpSpecTypeProvider extends GenericTypeProvider {
+
+    private PhpSpecLocator locator = null;
+
     @Nullable
     @Override
-    public String getType(PsiElement element) {
+    protected String getTypeFor(PsiElement element) {
 
-        PhpSpecLocator locator = element.getProject().getComponent(PhpSpecProject.class).getService(PhpSpecLocator.class);
+        PhpSpecLocator locator1 = getLocator(element);
         PhpClass phpClass = PsiTreeUtil.getParentOfType(element, PhpClass.class);
 
-        if (!(element instanceof Variable) || !((Variable)element).getName().equals("this") || (phpClass == null) || !locator.isSpec(phpClass)) {
+        if (!(element instanceof Variable) || !((Variable)element).getName().equals("this")
+                || (phpClass == null) || !locator1.isSpec(phpClass)) {
             return null;
         }
 
         try {
-            PhpSpecDescribedClass spec = locator.locateDescriptionFor(phpClass);
+            PhpSpecDescribedClass spec = locator1.locateDescriptionFor(phpClass);
 
             return spec.getDecoratedObject().getFQN();
         } catch (MissingElementException e) {
-            System.out.println("test");
         }
 
         return null;
+    }
+
+    private PhpSpecLocator getLocator(PsiElement element) {
+        if (locator == null) {
+            locator = element.getProject().getComponent(PhpSpecProject.class).getService(PhpSpecLocator.class);
+        }
+
+        return locator;
     }
 }

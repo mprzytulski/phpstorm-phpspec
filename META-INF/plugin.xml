@@ -1,8 +1,8 @@
 <idea-plugin version="2">
   <id>pl.projectspace.idea.plugins.php.phpspec</id>
   <name>phpspec</name>
-  <version>0.1</version>
-  <vendor email="michal@przytulski.pl" url="http://mprzytulski.github.io/phpstorm-phpspec">Michal Przytulski</vendor>
+  <version>0.2</version>
+  <vendor email="michal@przytulski.pl" url="http://projectspace.pl/phpstorm-plugins">Michal Przytulski</vendor>
 
   <description><![CDATA[
       phpspec support for PhpStorm IDE.
@@ -45,7 +45,7 @@
   </project-components>
 
   <actions>
-      <action id="CreateSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.CreateSpecForClass"
+      <action id="CreateSpecForClass" class="pl.projectspace.idea.plugins.php.phpspec.actions.CreateSpecForClassAction"
               text="Create spec for class" icon="/pl/projectspace/idea/plugins/php/phpspec/icons/phpspec_16_16.png">
           <add-to-group group-id="GenerateGroup" anchor="last"/>
       </action>

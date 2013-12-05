@@ -10,36 +10,34 @@ import com.jetbrains.php.lang.PhpFileType;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import pl.projectspace.idea.plugins.commons.php.action.PhpClassAction;
 import pl.projectspace.idea.plugins.commons.php.utils.PhpClassUtils;
+import pl.projectspace.idea.plugins.commons.php.utils.annotation.PluginAction;
 import pl.projectspace.idea.plugins.php.phpspec.PhpSpecProject;
 import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator;
-import pl.projectspace.idea.plugins.php.phpspec.core.annotations.PhpSpecAction;
 import pl.projectspace.idea.plugins.php.phpspec.core.services.FileFactory;
 
 import java.io.IOException;
 import java.util.Properties;
 
-public class CreateSpecForClass extends PhpClassAction {
-    public void actionPerformed(final AnActionEvent e) {
-        final PhpClass phpClass = getPhpClassFromContext(e);
-        Project project = phpClass.getProject();
+@PluginAction("phpspec")
+public class CreateSpecForClassAction extends PhpClassAction {
+
+    public void perform(final PhpClass phpClass) {
         try {
             createSpecFor(phpClass);
         } catch (Exception e1) {
-            Messages.showErrorDialog(project, "Failed creating spec for given class.", "Failed Creating Spec File.");
+            Messages.showErrorDialog(phpClass.getProject(), "Failed creating spec for given class.", "Failed Creating Spec File.");
         }
     }
 
     @Override
-    @PhpSpecAction
-    public void update(AnActionEvent e) {
-        PhpSpecLocator locator = e.getProject().getComponent(PhpSpecProject.class).getService(PhpSpecLocator.class);
-        PhpClass phpClass = getPhpClassFromContext(e);
-        e.getPresentation().setEnabled(
-            (phpClass != null && !locator.isSpec(phpClass))
-        );
+    protected boolean isAvailable(final PhpClass phpClass) {
+        return phpClass != null && super.isAvailable(phpClass) &&
+                !phpClass.getProject().getComponent(PhpSpecProject.class)
+                 .getService(PhpSpecLocator.class).isSpec(phpClass);
     }
 
-    public void createSpecFor(PhpClass phpClass) throws IOException {
+
+    protected void createSpecFor(PhpClass phpClass) throws IOException {
         Project project = phpClass.getProject();
         PhpSpecLocator locator = project.getComponent(PhpSpecProject.class).getService(PhpSpecLocator.class);
 

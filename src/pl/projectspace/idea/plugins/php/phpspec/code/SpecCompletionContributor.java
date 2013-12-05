@@ -14,4 +14,5 @@ public class SpecCompletionContributor extends CompletionContributor {
 
         extend(CompletionType.BASIC, PlatformPatterns.psiElement(), p);
     }
+
 }

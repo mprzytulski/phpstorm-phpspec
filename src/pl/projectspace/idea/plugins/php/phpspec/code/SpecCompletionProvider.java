@@ -1,15 +1,15 @@
 package pl.projectspace.idea.plugins.php.phpspec.code;
 
 import com.intellij.codeInsight.completion.CompletionParameters;
-import com.intellij.codeInsight.completion.CompletionProvider;
 import com.intellij.codeInsight.completion.CompletionResultSet;
-import com.intellij.codeInsight.lookup.LookupElement;
 import com.intellij.psi.PsiElement;
 import com.intellij.util.ProcessingContext;
 import com.jetbrains.php.lang.psi.elements.Method;
 import com.jetbrains.php.lang.psi.elements.Variable;
 import org.jetbrains.annotations.NotNull;
+import pl.projectspace.idea.plugins.commons.php.code.completion.GenericCompletionProvider;
 import pl.projectspace.idea.plugins.commons.php.psi.lookup.SimpleTextLookup;
+import pl.projectspace.idea.plugins.commons.php.utils.annotation.DependsOnPlugin;
 import pl.projectspace.idea.plugins.php.phpspec.PhpSpecProject;
 import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecStaticCompletionProvider;
 
@@ -17,9 +17,10 @@ import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecStaticCompl
 /**
  * @author Michal Przytulski <michal@przytulski.pl>
  */
-public class SpecCompletionProvider extends CompletionProvider<CompletionParameters> {
+@DependsOnPlugin("phpspec")
+public class SpecCompletionProvider extends GenericCompletionProvider {
 
-    public void addCompletions(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet resultSet) {
+    protected void addCompletionsFor(@NotNull CompletionParameters parameters, ProcessingContext context, @NotNull CompletionResultSet resultSet) {
         PsiElement element = parameters.getPosition();
 
         if (element.getPrevSibling() == null || element.getPrevSibling().getPrevSibling() == null

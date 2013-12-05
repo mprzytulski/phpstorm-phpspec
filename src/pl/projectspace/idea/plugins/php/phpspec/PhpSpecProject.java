@@ -4,9 +4,10 @@ import com.intellij.openapi.project.Project;
 import com.jetbrains.php.PhpIndex;
 import org.jetbrains.annotations.NotNull;
 import pl.projectspace.idea.plugins.commons.php.ProjectComponent;
+import pl.projectspace.idea.plugins.commons.php.StateComponentInterface;
 import pl.projectspace.idea.plugins.php.phpspec.config.PhpSpec;
 
-public class PhpSpecProject extends ProjectComponent {
+public class PhpSpecProject extends ProjectComponent implements StateComponentInterface {
 
     private final PhpSpec config;
 
@@ -21,7 +22,7 @@ public class PhpSpecProject extends ProjectComponent {
         return "phpspec";
     }
 
-    public static boolean isEnabled() {
+    public boolean isEnabled() {
         return true;
     }
 

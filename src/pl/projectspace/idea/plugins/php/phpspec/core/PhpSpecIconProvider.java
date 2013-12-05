@@ -8,6 +8,8 @@ import com.jetbrains.php.lang.psi.PhpFile;
 import com.jetbrains.php.lang.psi.elements.PhpClass;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pl.projectspace.idea.plugins.commons.php.psi.element.PluginIconProvider;
+import pl.projectspace.idea.plugins.commons.php.utils.annotation.DependsOnPlugin;
 import pl.projectspace.idea.plugins.php.phpspec.PhpSpecProject;
 import pl.projectspace.idea.plugins.php.phpspec.core.services.PhpSpecLocator;
 
@@ -16,19 +18,16 @@ import javax.swing.*;
 /**
  * @author Michal Przytulski <michal@przytulski.pl>
  */
-public class PhpSpecIconProvider extends IconProvider {
+@DependsOnPlugin("phpspec")
+public class PhpSpecIconProvider extends PluginIconProvider {
 
     private PhpSpecLocator locator;
 
     @Nullable
-    @Override
-    public Icon getIcon(@NotNull PsiElement element, @Iconable.IconFlags int i) {
-        if (!PhpSpecProject.isEnabled()) {
-            return null;
-        }
-
-        PhpSpecLocator locator = getUtils(element);
+    protected Icon getIconForElement(@NotNull PsiElement element, @Iconable.IconFlags int i) {
         if ((element instanceof PhpFile)) {
+            PhpSpecLocator locator = getUtils(element);
+
             for (PsiNamedElement el : ((PhpFile)element).getTopLevelDefs().values()) {
                 if (el instanceof PhpClass && locator.isSpec((PhpClass) el)) {
                     return PhpSpecIcons.File;
