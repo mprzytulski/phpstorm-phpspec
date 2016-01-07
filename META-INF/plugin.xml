@@ -9,13 +9,13 @@
 
       <h3>General:</h3>
       <ul>
-          <li>Custom icons for phpspac files</li>
+          <li>Custom icons for phpspec files</li>
           <li>Generate spec file for php class</li>
       </ul>
 
       <h3>Navigation:</h3>
       <ul>
-          <li>go to spec from php class / go to clas from spec class</li>
+          <li>Go to spec from php class / go to class from spec class</li>
       </ul>
       ]]></description>
 
@@ -23,10 +23,10 @@
       <h3>0.1</h3>
       <ul>
           <li>basic type provider for spec object</li>
-          <li>class inspection - generate warning for classes without spec with quick fix auto generatrion</li>
+          <li>class inspection - generate warning for classes without spec with quick fix auto generation</li>
           <li>generate spec for class</li>
           <li>custom icons for spec files</li>
-          <li>go to spec from php class / go to clas from spec class</li>
+          <li>go to spec from php class / go to class from spec class</li>
       </ul>
       ]]>
   </change-notes>
